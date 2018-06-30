@@ -11,13 +11,17 @@ const int servo3Pin = 10;
 const int servo4Pin = 11;
 
 int threshold = 750;
+bool sendingState = false;
+
 
 int previousLDRValue, currentLDRValue;
 
 
 void setup() {
+
   Serial.begin(9600);
 
+  
   previousLDRValue = 0;
   currentLDRValue = 0;
   
@@ -40,9 +44,17 @@ void loop() {
 
   currentLDRValue = analogRead(A0);
 
+  Serial.print("actual value: ");
+  Serial.println(currentLDRValue);
+
+    // check the delta
   int delta = previousLDRValue - currentLDRValue;
-  if (delta > 100) {
+  if (delta > 100 && !sendingState){
+    sendingState = true;
+
+    Serial.println("Running");
     doRun();
+    
   }
   
   
@@ -50,27 +62,31 @@ void loop() {
 }
 
 void doRun(){
+  
     delay(3200);
   
     servo1.write(102);
     delay(600);
-    servo1.write(80); //Reset
-    delay(2200);
+    servo1.write(80);//Reset
+    delay(100);
   
     servo2.write(95);
-    delay(600);
-    servo2.write(73); //Reset
-    delay(2200);
+    delay(900);
+    servo2.write(73);//Reset
+    delay(2700);
   
     servo3.write(83);
-    delay(600);
-    servo3.write(95); //Reset
-    delay(2200);
+    delay(1900);
+    servo3.write(95);//Reset
+    delay(4100);
   
     servo4.write(115);
-    delay(600);
-    servo4.write(128); //Reset
-    delay(500);    
+    delay(300);
+    servo4.write(128);//Reset
+    delay(1000);
+
+    sendingState = false;
+    
 }
 
 
