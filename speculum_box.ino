@@ -49,7 +49,7 @@ void loop() {
 
     // check the delta
   int delta = previousLDRValue - currentLDRValue;
-  if (delta > 100 && !sendingState){
+  if (delta > 80 && !sendingState){
     sendingState = true;
 
     Serial.println("Running");
